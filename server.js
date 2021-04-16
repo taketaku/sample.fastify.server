@@ -1,7 +1,25 @@
 const fastify = require('fastify')({logger: true})
 
-fastify.get('/', async (request, reply) => {
-  return { hello: 'world' }
+fastify.route({
+  method: 'GET',
+  url: '/',
+  schema: {
+    querystring: {
+      name: { type: 'string' }
+    },
+    response: {
+      200: {
+        type: 'object',
+        properties: {
+          hello: { type: 'string'}
+        }
+      }
+    }
+  },
+  preHandler: async (request, reply) => {},
+  handler: async (request, reply) => {
+    return { hello: 'world' }
+  }
 })
 
 const start = async () => {
